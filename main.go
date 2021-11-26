@@ -4,17 +4,17 @@ import (
 	"fmt"
 	"net/http"
 
-	"github.com/krishpranav/chatapp/websocket"
+	"github.com/krishpranav/chatapp/web"
 )
 
-func serveWs(pool *websocket.Pool, w http.ResponseWriter, r *http.Request) {
+func serveWs(pool *web.Pool, w http.ResponseWriter, r *http.Request) {
 	fmt.Println("Websocket hit")
-	conn, err := websocket.Upgrade(w, r)
+	conn, err := web.Upgrade(w, r)
 	if err != nil {
 		fmt.Fprintf(w, "%+v\n", err)
 	}
 
-	client := &websocket.Client{
+	client := &web.Client{
 		Conn: conn,
 		Pool: pool,
 	}
@@ -24,7 +24,7 @@ func serveWs(pool *websocket.Pool, w http.ResponseWriter, r *http.Request) {
 }
 
 func Routes() {
-	pool := websocket.NewPool()
+	pool := web.NewPool()
 	go pool.Start()
 
 	http.HandleFunc("/ws", func(w http.ResponseWriter, r *http.Request) {
