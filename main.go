@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"net/http"
 
-	"github.com/gorilla/websocket"
+	"github.com/krishpranav/chatapp/websocket"
 )
 
 func serveWs(pool *websocket.Pool, w http.ResponseWriter, r *http.Request) {
@@ -21,6 +21,15 @@ func serveWs(pool *websocket.Pool, w http.ResponseWriter, r *http.Request) {
 
 	pool.Register <- client
 	client.Read()
+}
+
+func Routes() {
+	pool := websocket.NewPool()
+	go pool.Start()
+
+	http.HandleFunc("/ws", func(w http.ResponseWriter, r *http.Request) {
+		serveWs(pool, w, r)
+	})
 }
 
 /* main func */

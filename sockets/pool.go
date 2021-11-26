@@ -1,6 +1,6 @@
 /* this package for getting, sending, registering new users + connections */
 
-package websocket
+package web
 
 import "fmt"
 
