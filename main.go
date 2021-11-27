@@ -9,7 +9,7 @@ import (
 
 func serveWs(pool *web.Pool, w http.ResponseWriter, r *http.Request) {
 	fmt.Println("Websocket hit")
-	conn, err := web.Upgrade(w, r)
+	conn, err := web.Upgrader(w, r)
 	if err != nil {
 		fmt.Fprintf(w, "%+v\n", err)
 	}
